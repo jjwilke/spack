@@ -10,7 +10,6 @@ TODO: this is really part of spack.config. Consolidate it.
 import os
 import re
 import getpass
-import subprocess
 import tempfile
 
 import spack.paths
@@ -37,20 +36,13 @@ replacements = {
 #   package name ->   50   (longest is currently 47 characters)
 #   version      ->   20
 #   hash         ->   32
-#   buffer       ->  138
+#   buffer       ->   38
 #  ---------------------
 #   total        ->  200
-SPACK_MAX_INSTALL_PATH_LENGTH = 300
+SPACK_MAX_INSTALL_PATH_LENGTH = 200
 SPACK_PATH_PADDING_CHARS = 'spack_path_placeholder'
 SPACK_PATH_PADDING_SIZE = len(SPACK_PATH_PADDING_CHARS)
-
-try:
-    SPACK_SYS_MAX_PATH_LENGTH = int(subprocess.check_output(
-        ['getconf', 'PATH_MAX', '/']))
-except (ValueError, subprocess.CalledProcessError, OSError):
-    # To be safe, if we couldn't determine the max path length on
-    # the system, we should pick a conservative default
-    SPACK_SYS_MAX_PATH_LENGTH = 1024
+SPACK_SYS_MAX_PATH_LENGTH = 400
 
 compiled_substitute_matcher = re.compile(r'(\$\w+\b|\$\{\w+\})')
 
